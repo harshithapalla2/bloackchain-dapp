@@ -1,0 +1,4 @@
+*.log
+node_modules/
+./App-app/node_modules
+./App-contract/node_modules
