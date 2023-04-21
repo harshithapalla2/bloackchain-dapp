@@ -1,0 +1,203 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Object Grid with Buy Button</title>
+    <style>
+      /* Style the table */
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      /* Style the table headers */
+      th {
+        background-color: #4CAF50; /* Green */
+        color: white;
+        padding: 8px;
+        text-align: center;
+      }
+
+      /* Style the table cells */
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: center;
+      }
+
+      /* Style the "Buy" button */
+      .buy-button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Object Grid with Buy Button</h1>
+
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>Object 1</td>
+        <td>Description of Object 1</td>
+        <td>$19.99</td>
+        <td><button class="buy-button">Buy</button></td>
+      </tr>
+      <tr>
+        <td>Object 2</td>
+        <td>Description of Object 2</td>
+        <td>$24.99</td>
+        <td><button class="buy-button">Buy</button></td>
+      </tr>
+      <tr>
+        <td>Object 3</td>
+        <td>Description of Object 3</td>
+        <td>$29.99</td>
+        <td><button class="buy-button">Buy</button></td>
+      </tr>
+      <tr>
+        <td>Object 4</td>
+        <td>Description of Object 4</td>
+        <td>$14.99</td>
+        <td><button class="buy-button">Buy</button></td>
+      </tr>
+      <tr>
+        <td>Object 5</td>
+        <td>Description of Object 5</td>
+        <td>$9.99</td>
+        <td><button class="buy-button">Buy</button></td>
+      </tr>
+      <tr>
+        <td>Object 6</td>
+        <td>Description of Object 6</td>
+        <td>$34.99</td>
+        <td><button class="buy-button">Buy</button></td>
+      </tr>
+    </table>
+
+  </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add Item Form </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/toastr.min.css" rel="stylesheet">
+    <style>
+      /* Center the form and item list */
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      /* Add some padding and a border to the form */
+      form {
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+      }
+      
+      /* Style the input fields */
+      input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      
+      /* Style the button */
+      button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      
+      /* Style the item list */
+      #item-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+      
+      /* Style the list items */
+      li {
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Add Item Form</h1>
+    <h3 class='text-center'>Channel: <span id="channel_balance"></span>,  Profile id: <span id="profile"></span></h3>
+    <form>
+      <label for="item-name">Item Name:</label>
+      <input type="text" id="item-name" name="item-name">
+      <label for="item-description">Item Description:</label>
+      <textarea id="item-description" name="item-description"></textarea>
+      <label for="item-price">Item Price:</label>
+      <input type="number" id="item-price" name="item-price">
+      <button type="button" id="additem">Add Item</button>
+    </form>
+
+
+    
+    <h2>Item List:</h2>
+    <form>
+      <button type="button" id="viewitems">View Item</button>
+      <!-- <input type="text" id="address" name="address"> -->
+    </form>
+
+    <br>
+
+    <button type="button" id="viewuser">View User</button>
+    <h3 class='text-center'>User: <span id="name"></span>
+
+    <br><br>
+
+    
+    <form>
+      <label for="item-name">Item ID:</label>
+      <input type="text" id="item-id" name="item-id">
+      <button type="button" id="sellList">List for sell</button>
+    </form>
+
+    <br><br>
+
+    <button type="button" id="registeruser">Register User</button>
+
+    
+    <script  src="js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.37/dist/web3.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

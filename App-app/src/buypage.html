@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Grid with Buy Button and Captions</title>
+    <style>
+      /* Center the images and buttons within their respective containers */
+      .image-container, .button-container, .caption-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      /* Style the "Buy" button */
+      .buy-button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      /* Set max-width and max-height for images */
+      .image-container img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      /* Set width and margin for image container to fit 3 images in a row */
+      .image-container {
+        width: calc(33.33% - 10px);
+        margin: 5px;
+      }
+
+      /* Create a grid layout for the image containers */
+      .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+
+      /* Style the caption text */
+      .caption-text {
+        font-size: 14px;
+        margin-top: 5px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image Grid with Buy Button and Captions</h1>
+
+    <div class="image-grid">
+      <div class="image-container">
+        <img src="images/1.jpeg" alt="Image 1">
+        <div class="caption-container">
+          <span class="caption-text">Sunset at the beach</span>
+        </div>
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/2.jpeg" alt="Image 2">
+        <div class="caption-container">
+          <span class="caption-text">City skyline at night</span>
+        </div>
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/3.jpeg" alt="Image 3">
+        <div class="caption-container">
+          <span class="caption-text">Hiking in the mountains</span>
+        </div>
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/4.jpeg" alt="Image 4">
+        <div class="caption-container">
+          <span class="caption-text">Camping under the stars</span>
+        </div>
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/5.jpeg" alt="Image 5">
+        <div class="caption-container">
+          <span class="caption-text">Autumn in the park</span>
+        </div>
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+    </div>
+    </body>
+</html>
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Grid with Buy Button</title>
+    <style>
+      /* Center the images and buttons within their respective containers */
+      .image-container, .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+
+      /* Style the "Buy" button */
+      .buy-button {
+        background-color: #4CAF50; /* Green */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      /* Set max-width and max-height for images */
+      .image-container img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+
+      /* Set width and margin for image container to fit 3 images in a row */
+      .image-container {
+        width: calc(33.33% - 10px);
+        margin: 5px;
+      }
+
+      /* Create a grid layout for the image containers */
+      .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Image Grid with Buy Button</h1>
+
+    <div class="image-grid">
+      <div class="image-container">
+        <img src="images/1.jpeg" alt="Image 1">
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/2.jpeg" alt="Image 2">
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/3.jpeg" alt="Image 3">
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/4.jpeg" alt="Image 4">
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/5.jpeg" alt="Image 5">
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+      <div class="image-container">
+        <img src="images/1.jpeg" alt="Image 6">
+        <div class="button-container">
+          <button class="buy-button">Buy</button>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Payment Channel </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="css/toastr.min.css" rel="stylesheet">
+    </head>  
+      <body>
+          <div class="col-lg-12 mb-3 mt-3 text-center"><h3>Micropayment channel for global cleaning<h3></div>
+          <hr>
+          <h6 class='text-center'>Channel: <span id="channel_balance"></span>, Organizer :  <span id="sender_balance"></span>,  Worker: <span id="receiver_balance"></span></h6>
+      <div class="timeline">
+        <div class="cloud left">
+          <div class="content alert-primary">
+              1. Micropayment channel deployed : organizer and worker hardcoded
+          </div>
+        </div>
+        <div class="cloud right">
+          <div class="content alert-success">
+           2. Collected cointainers of plastic verified
+          </div>          
+        </div>
+        <div class="cloud left">
+          <div class="content alert-success">
+              <div>
+                  <h6>3. Organizer (Sender)</h6>
+                  <div class="col-lg-10 mb-3">
+                    <label for="receiver">Worker address</label>
+                    <input type="text" class="form-control" id="receiver" placeholder="">
+                  </div>
+
+                  <div class="col-lg-10 mb-3">
+                    <label for="amount">Enter amount(cumulative)</label>
+                    <input type="number" class="form-control" id="amount" placeholder="1 container = 1 ETH">
+                  </div>
+
+                  <div class="col-auto my-1">
+                    <button type="submit" class="btn btn-light" id="sign">Send micropayment</button>
+                  </div>
+            </div> 
+          </div>
+        </div>
+        <div class="cloud right">
+          <div class="content alert-success" style="margin-top:-200px">
+              4. Signed messages          
+            <div id="allchecks">
+                
+            </div>
+          </div>
+        </div>
+        <div class="cloud left">
+          <div class="content alert-primary" style="margin-top:200px">
+              <div>
+                  <h6>5. Worker (Receiver)</h6>
+                  <div class="col-lg-10 mb-3">
+                    <label for="receiveramount">Enter amount(cumulative)</label>
+                    <input type="number" class="form-control" id="receiveramount" placeholder="1 container = 1 ETH">
+                  </div>
+
+                  <div class="col-lg-10 mb-3">
+                    <label for="signedMessage">Enter signed message</label>
+                    <input type="text" class="form-control" id="signedMessage" placeholder="Signed message">
+                  </div>  
+
+                  <div class="col-auto my-1">
+                    <button type="submit" class="btn btn-light" id="transfer">Claim payment</button>
+                  </div>
+            </div> 
+          </div>
+        </div>
+      </div>
+      
+      </body>
+    <script  src="js/toastr.min.js"></script>
+
+</html> 

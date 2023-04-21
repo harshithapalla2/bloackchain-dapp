@@ -1,0 +1,16 @@
+{
+  "name": "mpc-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "toastr": "^2.1.4"
+  },
+  "devDependencies": {},
+  "description": ""
+}
