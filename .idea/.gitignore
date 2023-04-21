@@ -6,3 +6,6 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+/App-app/node_modules
+/App-app/sample_html
+/App-contract/node_modules
