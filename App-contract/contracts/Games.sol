@@ -75,36 +75,14 @@ contract GameItems is ERC721 {
         return userA;
     }
 
-    // function getItemsAsArray() public returns (Item[] memory) {
-    //     uint256 count = 0;
-    //     for (uint i = 1; i <= _tokenIds.current(); i++) {
-    //         if (items[i].itemId != 0) {
-    //             count++;
-    //         }
-    //     }
-    //     Item[] memory result = new Item[](count);
-    //     uint256 index = 0;
-    //     for (uint i = 1; i <= _tokenIds.current(); i++) {
-    //         if (items[i].itemId != 0) {
-    //             result[index] = items[i];
-    //             index++;
-    //         }
-    //     }
-    //     return result;
-    // }
-
     function getItemsByUser() public returns (Item[] memory) {
         uint256[] memory itemslist = users[msg.sender].ownedItemIds;
-
         uint256 index=0;
         Item[] memory result = new Item[](itemslist.length+1);
         for (uint i=0; i<itemslist.length; i++) {
-
             result[index++] = items[itemslist[i]];
         }
-        
         return result;
-
     }
 
     function registerUser(string memory _username) public payable {
@@ -177,12 +155,6 @@ contract GameItems is ERC721 {
         
     //     delete listings[_itemId];
     // } 
-
-
-
-
-
-
     // rent related functions
 
     function listItemForRent(uint256 _itemId) public {
@@ -190,15 +162,13 @@ contract GameItems is ERC721 {
         require(!isItemForRent(_itemId), "Item already listed for rent.");
         uint256 _gameRentPrice = items[_itemId].price * 2 / 10;
         rentListings[_itemId] = RentListing(_itemId, msg.sender, _gameRentPrice);
+        items[_itemId].isAvailableForRent = true;
     }
-
-
 
     function isItemForRent(uint256 _itemId) public view returns (bool) {
         return rentListings[_itemId].itemId != 0 && rentListings[_itemId].owner != address(0);
     }
 
-    
 
     function rentItem(uint256 _itemId) public payable {
         require(isItemForRent(_itemId), "Item not listed for rent.");
@@ -208,9 +178,7 @@ contract GameItems is ERC721 {
         address owner = rentListings[_itemId].owner;
         require(owner != msg.sender, "Cannot rent own item.");
         require(users[msg.sender].walletAddress != address(0),"User not registered.");
-
         // users[msg.sender].rentedItemIds.push(_itemId)
-
         // items[_itemId].renter = msg.sender;
         users[msg.sender].rentedItemIds.push(_itemId);
         users[owner].balance += totalRentPrice;
@@ -231,7 +199,6 @@ contract GameItems is ERC721 {
 
     function playGame(uint256 _itemId) public {
         require(isUserRentingItem(msg.sender,_itemId),"Not the renter of the item.");
-
         // require(items[_itemId].renter != msg.sender, "Not the renter of the item.");
         // require(ownerOf(_itemId) == msg.sender, "Not the owner of the item.");
         require(!isItemForRent(_itemId), "Item already listed for rent.");

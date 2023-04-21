@@ -71,7 +71,10 @@ App = {
 
     $(document).on('click', '#sellList', function(){
       App.sellList(jQuery('#item-id').val());
-   });
+    });
+    $(document).on('click', '#rentList', function(){
+      App.rentList(jQuery('#rentitem-id').val());
+    });
 
     $(document).on('click', '#viewitems', App.viewItem);
 
@@ -86,6 +89,28 @@ App = {
 
   },
 
+  rentList: function(itemId){
+    console.log('In rent list');
+    App.web3.eth.getAccounts(function(error, accounts) {
+      var account = accounts[0];
+      console.log(account);
+      var option={from:account};
+      console.log(option);
+      console.log(itemId)
+      App.contracts.Games.methods.listItemForRent(itemId).send(option,function(error, result) {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log(result);
+        }
+      });
+      
+    });
+    
+  },
+
+
+
 
   viewItem: function(){
     console.log('In view item');
@@ -96,18 +121,6 @@ App = {
       // console.log(App.contracts.Games.methods.getUser(account));
       var option={from:account};
       console.log(option);
-      // App.contracts.Games.methods.getUser(account) 
-
-      // App.contracts.Games.methods.getItemsAsArray()
-      // .call(option, function(error, result) {
-      //   if (error) {
-      //       console.error(error);
-      //   } else {
-      //     console.log('here');  
-      //     console.log(result);
-      //       // document.getElementById('name').innerHTML = result.username;
-      //   }
-      // });
       App.contracts.Games.methods.getItemsByUser().call(option,function(error, result) {
         if (error) {
           console.log(error);
