@@ -3,7 +3,7 @@ Gaming characters and items
 
 
 
-## Running instructions
+### Running instructions
 cd ../App-contract/ <br>
 truffle compile <br>
 truffle migrate --reset <br><br>
