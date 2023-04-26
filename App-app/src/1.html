@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Grid of items with images</title>
+    <style>
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+      }
+      .grid-item {
+        background-color: #fff;
+        text-align: center;
+      }
+      .grid-item img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid-container" id="myGrid"></div>
+    <script>
+      var myArray = [
+        { src: "images/1.jpeg", alt: "Image 1" },
+        { src: "images/1.jpeg", alt: "Image 2" },
+        { src: "images/1.jpeg", alt: "Image 3" },
+        { src: "images/1.jpeg", alt: "Image 4" },
+        { src: "images/1.jpeg", alt: "Image 5" },
+        { src: "images/1.jpeg", alt: "Image 6" },
+      ];
+      var myGrid = document.getElementById("myGrid");
+      for (var i = 0; i < myArray.length; i++) {
+        var newItem = document.createElement("div");
+        newItem.className = "grid-item";
+        var newImage = document.createElement("img");
+        newImage.src = myArray[i].src;
+        newImage.alt = myArray[i].alt;
+        newItem.appendChild(newImage);
+        myGrid.appendChild(newItem);
+      }
+    </script>
+  </body>
+</html>
