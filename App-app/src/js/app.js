@@ -84,8 +84,8 @@ App = {
 
     $(document).on('click', '#viewitems', App.viewOwnedItems);
 
-    $(document).on('click', '#registeruser', function(){
-      App.handleRegisterUser('Ganesh Reddy');
+    $(document).on('click', '#register', function(){
+      App.handleRegisterUser('harshitha');
     });
 
     $(document).on('click', '#buyItem', function(){
@@ -204,6 +204,50 @@ App = {
         } else {
           usritems = result;
           console.log(usritems);
+          var container = document.getElementById("grid-container");
+          container.innerHTML = "";
+          for (var i = 0; i < App.items.length; i++) {
+            var imageContainer = document.createElement("div");
+            imageContainer.classList.add("image-container");
+
+            var image = document.createElement("img");
+            imageContainer.style.textAlign = "center";
+            image.src = 'images/1.jpeg';
+            image.alt = 'Image' + i;
+
+            var captionContainer = document.createElement("div");
+            captionContainer.classList.add("caption-container");
+            var captionText = document.createElement("span");
+            captionText.classList.add("caption-text");
+            captionContainer.style.textAlign = "center";
+            captionText.innerHTML = App.items[i].description;
+            captionContainer.appendChild(captionText);
+            captionContainer.appendChild(document.createElement("br"));
+            captionContainer.appendChild(document.createElement("br"));
+
+            var buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("button-container");
+            var sellButton = document.createElement("button");
+            sellButton.classList.add("sell-button");
+            sellButton.innerHTML = "Sell";
+            buttonContainer.appendChild(sellButton);
+
+            var rentButton = document.createElement("button");
+            rentButton.classList.add("rent-button");
+            rentButton.innerHTML = "Rent";
+            buttonContainer.appendChild(rentButton);
+
+            sellButton.style.marginRight = "10px";
+
+
+            imageContainer.appendChild(image);
+            imageContainer.appendChild(captionContainer);
+            imageContainer.appendChild(buttonContainer);
+
+            imageContainer.appendChild(document.createElement("br"));
+
+            container.appendChild(imageContainer);
+          }
         }
       });
     });
@@ -234,20 +278,13 @@ App = {
 
 
   viewOwnedItems: function(){
-    // var myVariable = "Hello, world!";
-    // document.getElementById("output1").innerHTML = myVariable;
     var grid = document.getElementById("grid-container");
-    if (grid.style.display === "none") {
-      grid.style.display = "none";
-    } else {
-      grid.style.display = "none";
-    }
 
     console.log('In view owned items');
     var itemInstance;
     App.web3.eth.getAccounts(function(error, accounts) {
       var account = accounts[0];
-      
+
       console.log(account);
       // console.log(App.contracts.Games.methods.getUser(account));
       var option={from:account};
@@ -262,18 +299,6 @@ App = {
           // console.log(rem);
           console.log(App.items);
           var myGrid = document.getElementById("grid-container");
-          // for (var i = 0; i < App.items.length; i++) {
-          //   var newItem = document.createElement("div");
-          //   newItem.className = "grid-item";
-          //   var newImage = document.createElement("img");
-          //   newImage.src = '../images/1.jpeg';
-          //   newImage.alt = 'image'+i;
-          //   console.log(newImage.alt);
-          //   newItem.appendChild(newImage);
-          //   console.log(newItem);
-          //   myGrid.appendChild(newItem);
-          // }
-
 
           var container = document.getElementById("grid-container");
           container.innerHTML = "";
@@ -282,6 +307,7 @@ App = {
             imageContainer.classList.add("image-container");
 
             var image = document.createElement("img");
+            imageContainer.style.textAlign = "center";
             image.src = 'images/1.jpeg';
             image.alt = 'Image'+i;
 
@@ -289,31 +315,44 @@ App = {
             captionContainer.classList.add("caption-container");
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
+            captionContainer.style.textAlign = "center";
             captionText.innerHTML = App.items[i].description;
             captionContainer.appendChild(captionText);
+            captionContainer.appendChild(document.createElement("br"));
+            captionContainer.appendChild(document.createElement("br"));
 
             var buttonContainer = document.createElement("div");
             buttonContainer.classList.add("button-container");
-            var buyButton = document.createElement("button");
-            buyButton.classList.add("buy-button");
-            buyButton.innerHTML = "Buy";
-            buttonContainer.appendChild(buyButton);
+            var sellButton = document.createElement("button");
+            sellButton.classList.add("sell-button");
+            sellButton.innerHTML = "Sell";
+            buttonContainer.appendChild(sellButton);
+
+            var rentButton = document.createElement("button");
+            rentButton.classList.add("rent-button");
+            rentButton.innerHTML = "Rent";
+            buttonContainer.appendChild(rentButton);
+
+            sellButton.style.marginRight = "10px";
+
 
             imageContainer.appendChild(image);
             imageContainer.appendChild(captionContainer);
             imageContainer.appendChild(buttonContainer);
 
+            imageContainer.appendChild(document.createElement("br"));
+
             container.appendChild(imageContainer);
           }
 
-          
-          
+
+
           // document.getElementById("output1").innerHTML = App.items;
         }
       });
       // console.log(App.items);
-      
-    
+
+
 
     });
   },
@@ -387,6 +426,10 @@ App = {
   },
 
   handleAddItem: function(name,description,price) {
+    if (name === '' || description === '' || price === '') {
+      alert('Please enter a valid name, description and price.');
+      return;
+    }
     var itemInstance;
     console.log('In add item function');
     App.web3.eth.getAccounts(function(error, accounts) {
@@ -395,7 +438,7 @@ App = {
       var option={from:account};
       console.log(option);
       console.log(typeof parseInt(price));
-      App.contracts.Games.methods.addItem('name',0,'Hi')
+      App.contracts.Games.methods.addItem(name,price,description)
       .send(option, function(error,result){
         if (error){
           console.log(error);
