@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
+// import "./Gamesrent.sol";
 
 contract GameItems is ERC721 {
     using Counters for Counters.Counter;
@@ -94,26 +94,7 @@ contract GameItems is ERC721 {
         }
         return result;
     }
-    // function getCanBuyItems() public view onlyRegistered returns (Item[] memory) {
-    //     // uint256[] memory itemslist = users[msg.sender].ownedItemIds;
-    //     uint256 itemC=_tokenIds.current();
-    //     uint cnt=0;
-    //     for(uint i=1;i<=itemC;i++){
-    //         if(items[i].isAvailableForSale == false && items[i].owner != msg.sender){
-    //             cnt+=1;
-    //         }
-    //     }
 
-    //     Item[] memory result = new Item[](cnt);
-    //     uint index=0;
-    //     for(uint i=1;i<=itemC;i++){
-    //         if(items[i].isAvailableForSale == false && items[i].owner != msg.sender){
-    //             result[index] = items[i];
-    //             index++;
-    //         }
-    //     }
-    //     return  result;
-    // }
     function registerUser(string memory _username) public payable {
         require(users[msg.sender].walletAddress == address(0), "User already registered.");
         users[msg.sender] = User(msg.sender, _username, msg.value, new uint256[](0), new uint256[](0));
@@ -265,6 +246,22 @@ contract GameItems is ERC721 {
 
     //     delete rentListings[_itemId];
     // } 
+    // function getRentListings() public onlyRegistered returns (RentListing[] memory){
+    //     uint256 index=0;
+    //     uint itemC = _tokenIds.current();
+
+    //     RentListing[] memory result = new RentListing[](itemC);
+    //     for (uint i=1; i<=itemC; i++) {
+    //         if(rentListings[i].owner == address(0)){
+
+    //         } else {
+    //             result[index++] = rentListings[i];
+    //         }
+
+    //     }
+    //     return result;
+    // }
+
 
     function close() public onlyAdmin {
         selfdestruct(payable(msg.sender));   

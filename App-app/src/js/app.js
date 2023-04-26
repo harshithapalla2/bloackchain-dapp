@@ -78,6 +78,10 @@ App = {
       App.viewSaleItems();
     });
 
+    $(document).on('click', '#viewrentitems', function(){
+      App.viewRentItems();
+    });
+
     $(document).on('click', '#rentList', function(){
       App.rentList(jQuery('#rentitem-id').val());
     });
@@ -91,6 +95,11 @@ App = {
     $(document).on('click', '#buyItem', function(){
       App.buyItem(jQuery('#buyitem-id').val());
     });
+
+    $(document).on('click', '#rentItem', function(){
+      App.rentItem(jQuery('#rentitem-id').val());
+    });
+    
 
     // $(document).on('click', '#transfer', function(){
     //   App.handleTransfer(jQuery('#item-name').val(),jQuery('#item-description').val(),jQuery('#item-price').val());
@@ -107,6 +116,22 @@ App = {
       var option = {from:account,value:10};
       console.log(option);
       App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
+        if (error){
+          console.log(error);
+        } else {
+          console.log(result);
+        }
+      });
+    })
+  },
+
+  rentItem: function(itemId){
+    console.log('In Rent Item');
+    App.web3.eth.getAccounts(function(error, accounts){
+      var account = accounts[0];
+      var option = {from:account,value:10};
+      console.log(option);
+      App.contracts.Games.methods.rentItem(itemId).send(option, function(error,result){
         if (error){
           console.log(error);
         } else {
