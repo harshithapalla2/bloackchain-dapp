@@ -154,6 +154,57 @@
         border: 1px solid #ccc;
         border-radius: 5px;
       }
+      .grid-container {
+        display: none;
+        grid-template-columns: repeat(3, 1fr);
+        grid-gap: 10px;
+      }
+      .grid-item {
+        background-color: #fff;
+        text-align: center;
+      }
+      .grid-item img {
+        max-width: 100%;
+        height: auto;
+      }
+      /* .grid-container {
+        display: none;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-gap: 20px;
+      } */
+      /* .grid-item {
+        background-color: #f2f2f2;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      } */
+      /* .grid-item img {
+        max-width: 100%;
+        max-height: 150px;
+        object-fit: contain;
+        margin-bottom: 10px;
+      } */
+      /* .image-container img {
+        max-width: 100%;
+        max-height: 100%;
+      } */
+
+      /* Set width and margin for image container to fit 3 images in a row */
+      /* .image-container {
+        width: calc(33.33% - 10px);
+        margin: 5px;
+      } */
+
+      /* Create a grid layout for the image containers */
+      /* .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+      } */
+
     </style>
   </head>
   <body>
@@ -171,13 +222,28 @@
 
 
     
-    <h2>Item List:</h2>
-    <form>
+    <h2>Owned Item List:</h2>
+    
       <button type="button" id="viewitems">View Item</button>
       <!-- <input type="text" id="address" name="address"> -->
-    </form>
+      <br>
 
+    <div id="grid-container"></div>
     <br>
+
+
+
+    <h2>Items for sale</h2>
+    
+      <button type="button" id="viewsaleitems">View Sale Item</button>
+      <!-- <input type="text" id="address" name="address"> -->
+      <br>
+
+    <div id="grid-container"></div>
+
+
+
+
 
     <button type="button" id="viewuser">View User</button>
     <h3 class='text-center'>User: <span id="name"></span>
@@ -201,6 +267,19 @@
       <input type="text" id="rentitem-id" name="rentitem-id">
       <button type="button" id="rentList">List for Rent</button>
     </form>
+
+
+    <br>
+    <form>
+      <label for="item-name">Item ID:</label>
+      <input type="text" id="buyitem-id" name="buyitem-id">
+      <button type="button" id="buyItem">Buy</button>
+    </form>
+
+
+  
+
+
 
     
     <script  src="js/toastr.min.js"></script>
