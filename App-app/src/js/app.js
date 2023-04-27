@@ -59,7 +59,7 @@ App = {
       var userAddress = accounts[0];
       console.log(accounts);
       // update user's address in the HTML
-      document.getElementById('profile').innerHTML = userAddress;
+      // document.getElementById('profile').innerHTML = userAddress;
       jQuery('#profile').text(userAddress)
     });
 
@@ -78,14 +78,18 @@ App = {
       App.viewSaleItems();
     });
 
+    $(document).on('click', '#viewrentitems', function(){
+      App.viewRentItems();
+    });
+
     $(document).on('click', '#rentList', function(){
       App.rentList(jQuery('#rentitem-id').val());
     });
 
     $(document).on('click', '#viewitems', App.viewOwnedItems);
 
-    $(document).on('click', '#register', function(){
-      App.handleRegisterUser('harshitha');
+    $(document).on('click', '#registeruser', function(){
+      App.handleRegisterUser(jQuery('#name').val());
     });
 
     $(document).on('click', '#buyItem', function(){
@@ -138,51 +142,140 @@ App = {
 
 
   //Items he can rent
-  viewRentItems: function() {
-    console.log('In view item');
-    // var itemInstance;
-    var usritems;
-    var items;
-    App.web3.eth.getAccounts(function(error, accounts) {
-      var account = accounts[0];
+  // viewRentItems: function() {
+  //   console.log('In view item');
+  //   // var itemInstance;
+  //   var usritems;
+  //   var items;
+  //   App.web3.eth.getAccounts(function(error, accounts) {
+  //     var account = accounts[0];
       
-      console.log(account);
-      // console.log(App.contracts.Games.methods.getUser(account));
-      var option={from:account};
-      console.log(option);
+  //     console.log(account);
+  //     // console.log(App.contracts.Games.methods.getUser(account));
+  //     var option={from:account};
+  //     console.log(option);
 
-      App.contracts.Games.methods.getItemsByUser().call(option,function(error, result) {
-        if (error) {
-          console.log(error);
-        } else {
-          usritems = result;
-          console.log(usritems);
-        }
-      });
-    });
+  //     App.contracts.Games.methods.getItemsByUser().call(option,function(error, result) {
+  //       if (error) {
+  //         console.log(error);
+  //       } else {
+  //         usritems = result;
+  //         console.log(usritems);
+  //       }
+  //     });
+  //   });
 
-    App.web3.eth.getAccounts(function(error, accounts) {
-      var account = accounts[0];
-      console.log(account);
-      var option={from:account};
-      console.log(option);
+  //   App.web3.eth.getAccounts(function(error, accounts) {
+  //     var account = accounts[0];
+  //     console.log(account);
+  //     var option={from:account};
+  //     console.log(option);
 
-      App.contracts.Games.methods.getAllItems().call(option, function(error,result){
-        if (error){
-          console.log(error);
-        } else {
-          items = result;
-          console.log(items);
-          var itemsForRent = items.filter(item => {
-            // check if item is not owned by current user and is available for sale
-            return item[6] !== account && item[3] === true && item[6] !== "0x0";
-          });    
-          console.log(itemsForRent);
-        }
-      });
-    });
+  //     App.contracts.Games.methods.getAllItems().call(option, function(error,result){
+  //       if (error){
+  //         console.log(error);
+  //       } else {
+  //         items = result;
+  //         console.log(items);
+  //         var itemsForRent = items.filter(item => {
+  //           // check if item is not owned by current user and is available for sale
+  //           return item[6] !== account && item[3] === true && item[6] !== "0x0";
+  //         });    
+  //         console.log(itemsForRent);
+  //       }
+  //     });
+  //   });
     
-  },
+  // },
+    //Items he can rent
+  viewRentItems: function() {
+      console.log('In view item');
+      // var itemInstance;
+      var usritems;
+      var items;
+      App.web3.eth.getAccounts(function(error, accounts) {
+        var account = accounts[0];
+        
+        console.log(account);
+        // console.log(App.contracts.Games.methods.getUser(account));
+        var option={from:account};
+        console.log(option);
+  
+        App.contracts.Games.methods.getItemsByUser().call(option,function(error, result) {
+          if (error) {
+            console.log(error);
+          } else {
+            usritems = result;
+            console.log(usritems);
+          }
+        });
+      });
+  
+      App.web3.eth.getAccounts(function(error, accounts) {
+        var account = accounts[0];
+        console.log(account);
+        var option={from:account};
+        console.log(option);
+  
+        App.contracts.Games.methods.getAllItems().call(option, function(error,result){
+          if (error){
+            console.log(error);
+          } else {
+            items = result;
+            console.log(items);
+            var itemsForRent = items.filter(item => {
+              // check if item is not owned by current user and is available for sale
+              return item[7] !== account && item[3] === true && item[7] !== "0x0";
+            });    
+            console.log(itemsForRent);
+            var container = document.getElementById("grid-container");
+            for (var i = 0; i < itemsForRent.length; i++) {
+              var imageContainer = document.createElement("div");
+              imageContainer.classList.add("image-container");
+
+              var image = document.createElement("img");
+              imageContainer.style.textAlign = "center";
+              image.src = 'images/1.jpeg';
+              image.alt = 'Image' + i;
+
+              var captionContainer = document.createElement("div");
+              captionContainer.classList.add("caption-container");
+              var captionText = document.createElement("span");
+              captionText.classList.add("caption-text");
+              captionContainer.style.textAlign = "center";
+              captionText.innerHTML = itemsForRent[i][1];
+              captionContainer.appendChild(captionText);
+              captionContainer.appendChild(document.createElement("br"));
+              captionContainer.appendChild(document.createElement("br"));
+
+              var buttonContainer = document.createElement("div");
+              buttonContainer.classList.add("button-container");
+              var sellButton = document.createElement("button");
+              sellButton.classList.add("sell-button");
+              sellButton.innerHTML = "Sell";
+              buttonContainer.appendChild(sellButton);
+
+              var rentButton = document.createElement("button");
+              rentButton.classList.add("rent-button");
+              rentButton.innerHTML = "Rent";
+              buttonContainer.appendChild(rentButton);
+
+              sellButton.style.marginRight = "10px";
+
+
+              imageContainer.appendChild(image);
+              imageContainer.appendChild(captionContainer);
+              imageContainer.appendChild(buttonContainer);
+
+              imageContainer.appendChild(document.createElement("br"));
+
+              container.appendChild(imageContainer);
+            }
+          }
+        });
+      });
+      
+    },
 
   // List of items he can buy
   viewSaleItems: function() {
@@ -206,7 +299,30 @@ App = {
           console.log(usritems);
           var container = document.getElementById("grid-container");
           container.innerHTML = "";
-          for (var i = 0; i < App.items.length; i++) {
+          
+        }
+      });
+    });
+
+    App.web3.eth.getAccounts(function(error, accounts) {
+      var account = accounts[0];
+      console.log(account);
+      var option={from:account};
+      console.log(option);
+
+      App.contracts.Games.methods.getAllItems().call(option, function(error,result){
+        if (error){
+          console.log(error);
+        } else {
+          items = result;
+          console.log(items);
+          var itemsForSale = items.filter(item => {
+            // check if item is not owned by current user and is available for sale
+            return item[6] !== account && item[4] === true && item[6] !== "0x0";
+          });    
+          console.log(itemsForSale);
+          var container = document.getElementById("grid-container");
+          for (var i = 0; i < itemsForSale.length; i++) {
             var imageContainer = document.createElement("div");
             imageContainer.classList.add("image-container");
 
@@ -220,7 +336,7 @@ App = {
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = App.items[i].description;
+            captionText.innerHTML = itemsForSale[i][1];
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
@@ -248,27 +364,6 @@ App = {
 
             container.appendChild(imageContainer);
           }
-        }
-      });
-    });
-
-    App.web3.eth.getAccounts(function(error, accounts) {
-      var account = accounts[0];
-      console.log(account);
-      var option={from:account};
-      console.log(option);
-
-      App.contracts.Games.methods.getAllItems().call(option, function(error,result){
-        if (error){
-          console.log(error);
-        } else {
-          items = result;
-          console.log(items);
-          var itemsForSale = items.filter(item => {
-            // check if item is not owned by current user and is available for sale
-            return item[6] !== account && item[4] === true && item[6] !== "0x0";
-          });    
-          console.log(itemsForSale);
         }
       });
     });
@@ -404,7 +499,7 @@ App = {
 
   handleRegisterUser: function(username) {
     var itemInstance;
-    console.log('In add user function');
+    console.log('In Register user function');
     App.web3.eth.getAccounts(function(error, accounts) {
       var account = accounts[0];
       console.log(account);

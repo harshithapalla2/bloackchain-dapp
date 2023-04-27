@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
+// import "./Gamesrent.sol";
 
 contract GameItems is ERC721 {
     using Counters for Counters.Counter;
@@ -26,25 +26,27 @@ contract GameItems is ERC721 {
         bool isAvailableForRent;
         bool isAvailableForSale;
         uint256 price;
+        uint256 rentPrice;
         address owner;
+        address renteraddr;
     }
 
-    struct SaleListing {
-        uint256 itemId;
-        address seller;
-        uint256 price;
-    }
+    // struct SaleListing {
+    //     uint256 itemId;
+    //     address seller;
+    //     uint256 price;
+    // }
 
-    struct RentListing {
-        uint256 itemId;
-        address owner;
-        uint256 gameRentPrice;
-    }
+    // struct RentListing {
+    //     uint256 itemId;
+    //     address owner;
+    //     uint256 gameRentPrice;
+    // }
 
     mapping(address => User) public users;
     mapping(uint256 => Item) public items;
-    mapping(uint256 => SaleListing) public listings;
-    mapping(uint256 => RentListing) public rentListings;
+    // mapping(uint256 => SaleListing) public listings;
+    // mapping(uint256 => RentListing) public rentListings;
 
 
 
@@ -94,26 +96,7 @@ contract GameItems is ERC721 {
         }
         return result;
     }
-    // function getCanBuyItems() public view onlyRegistered returns (Item[] memory) {
-    //     // uint256[] memory itemslist = users[msg.sender].ownedItemIds;
-    //     uint256 itemC=_tokenIds.current();
-    //     uint cnt=0;
-    //     for(uint i=1;i<=itemC;i++){
-    //         if(items[i].isAvailableForSale == false && items[i].owner != msg.sender){
-    //             cnt+=1;
-    //         }
-    //     }
 
-    //     Item[] memory result = new Item[](cnt);
-    //     uint index=0;
-    //     for(uint i=1;i<=itemC;i++){
-    //         if(items[i].isAvailableForSale == false && items[i].owner != msg.sender){
-    //             result[index] = items[i];
-    //             index++;
-    //         }
-    //     }
-    //     return  result;
-    // }
     function registerUser(string memory _username) public payable {
         require(users[msg.sender].walletAddress == address(0), "User already registered.");
         users[msg.sender] = User(msg.sender, _username, msg.value, new uint256[](0), new uint256[](0));
@@ -123,31 +106,29 @@ contract GameItems is ERC721 {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
         _mint(msg.sender, newItemId);
-        items[newItemId] = Item(newItemId,_name,_description,false,false,price,msg.sender);
+        items[newItemId] = Item(newItemId,_name,_description,false,false,price,price*2/10,msg.sender,address(0));
         users[msg.sender].ownedItemIds.push(newItemId);
         return newItemId;
     }
-
-
     // Sale related functions
 
     function listItemForSale(uint256 _itemId) public onlyOwner(_itemId) returns (bool){
         // require(ownerOf(_itemId) == msg.sender, "Not the owner of the item.");
         require(!isItemForSale(_itemId), "Item already listed for sale.");
         uint256 _price = items[_itemId].price;
-        listings[_itemId] = SaleListing(_itemId, msg.sender, _price);
+        // listings[_itemId] = SaleListing(_itemId, msg.sender, _price);
         items[_itemId].isAvailableForSale = true;
         return true;
     }
 
     function isItemForSale(uint256 _itemId) public view returns (bool) {
-        return listings[_itemId].itemId != 0 && listings[_itemId].seller != address(0);
+        return items[_itemId].isAvailableForSale;
     }
 
     function buyItem(uint256 _itemId) public payable {
         require(isItemForSale(_itemId), "Item not listed for sale.");
-        require(msg.value >= listings[_itemId].price, "Insufficient funds.");
-        address seller = listings[_itemId].seller;
+        require(msg.value >= items[_itemId].price, "Insufficient funds.");
+        address seller = items[_itemId].owner;
         require(seller != msg.sender, "Cannot buy own item.");
         require(users[msg.sender].walletAddress != address(0),"User not registered.");
 
@@ -164,17 +145,17 @@ contract GameItems is ERC721 {
 
         items[_itemId].owner = msg.sender;
         items[_itemId].isAvailableForSale = false;
-        users[seller].balance += listings[_itemId].price;
-        users[msg.sender].balance -= listings[_itemId].price;
-        payable(seller).transfer(listings[_itemId].price);
-        delete listings[_itemId];
+        users[seller].balance += items[_itemId].price;
+        users[msg.sender].balance -= items[_itemId].price;
+        payable(seller).transfer(items[_itemId].price);
+        // delete listings[_itemId];
     }
 
-    function cancelListing(uint256 _itemId) public {
-        require(isItemForSale(_itemId), "Item not listed for sale.");
-        require(listings[_itemId].seller == msg.sender, "Not the owner of the item.");
-        delete listings[_itemId];
-    }
+    // function cancelListing(uint256 _itemId) public {
+    //     require(isItemForSale(_itemId), "Item not listed for sale.");
+    //     require(listings[_itemId].seller == msg.sender, "Not the owner of the item.");
+    //     delete listings[_itemId];
+    // }
 
     // function changeSaleState(uint256 _itemId) public {
     //     require(ownerOf(_itemId) == msg.sender, "Not the owner of the item.");
@@ -189,22 +170,21 @@ contract GameItems is ERC721 {
     function listItemForRent(uint256 _itemId) public {
         require(ownerOf(_itemId) == msg.sender, "Not the owner of the item.");
         require(!isItemForRent(_itemId), "Item already listed for rent.");
-        uint256 _gameRentPrice = items[_itemId].price * 2 / 10;
-        rentListings[_itemId] = RentListing(_itemId, msg.sender, _gameRentPrice);
+        // uint256 _gameRentPrice = items[_itemId].price * 2 / 10;
+        // rentListings[_itemId] = RentListing(_itemId, msg.sender, _gameRentPrice);
         items[_itemId].isAvailableForRent = true;
     }
 
     function isItemForRent(uint256 _itemId) public view returns (bool) {
-        return rentListings[_itemId].itemId != 0 && rentListings[_itemId].owner != address(0);
+        return items[_itemId].isAvailableForRent;
     }
 
 
     function rentItem(uint256 _itemId) public payable {
         require(isItemForRent(_itemId), "Item not listed for rent.");
-        uint256 totalRentPrice = rentListings[_itemId].gameRentPrice;
+        uint256 totalRentPrice = items[_itemId].rentPrice;
         require(msg.value >= totalRentPrice, "Insufficient funds.");
-
-        address owner = rentListings[_itemId].owner;
+        address owner = items[_itemId].owner;
         require(owner != msg.sender, "Cannot rent own item.");
         require(users[msg.sender].walletAddress != address(0),"User not registered.");
         // users[msg.sender].rentedItemIds.push(_itemId)
@@ -213,7 +193,9 @@ contract GameItems is ERC721 {
         users[owner].balance += totalRentPrice;
         users[msg.sender].balance -= totalRentPrice;
         payable(owner).transfer(totalRentPrice);
-        delete rentListings[_itemId];
+        items[_itemId].isAvailableForRent = false;
+        items[_itemId].renteraddr = msg.sender;
+        // delete rentListings[_itemId];
     }
 
     function isUserRentingItem(address user, uint256 _itemId) internal view returns (bool) {
@@ -226,15 +208,18 @@ contract GameItems is ERC721 {
     }
 
 
-    function playGame(uint256 _itemId) public {
+    function playGame(uint256 _itemId, uint256 rating) public {
         require(isUserRentingItem(msg.sender,_itemId),"Not the renter of the item.");
         // require(items[_itemId].renter != msg.sender, "Not the renter of the item.");
         // require(ownerOf(_itemId) == msg.sender, "Not the owner of the item.");
         require(!isItemForRent(_itemId), "Item already listed for rent.");
+        require(rating>=0 && rating<=5, "Give valid rating between 0 and 5");
 
-        uint256 _gameRentPrice = items[_itemId].price * 2 / 10;
+        // uint256 _gameRentPrice = items[_itemId].price * 2 / 10;
+        items[_itemId].isAvailableForRent = false;
+        items[_itemId].renteraddr = address(0);
 
-        rentListings[_itemId] = RentListing(_itemId, msg.sender, _gameRentPrice);
+        // rentListings[_itemId] = RentListing(_itemId, msg.sender, _gameRentPrice);
 
         returnRentedItem(_itemId);
         // cancelRentListing(_itemId);
@@ -265,8 +250,23 @@ contract GameItems is ERC721 {
 
     //     delete rentListings[_itemId];
     // } 
+    // function getRentListings() public onlyRegistered returns (RentListing[] memory){
+    //     uint256 index=0;
+    //     uint itemC = _tokenIds.current();
 
-    function close() public onlyAdmin {
-        selfdestruct(payable(msg.sender));   
-    }
+    //     RentListing[] memory result = new RentListing[](itemC);
+    //     for (uint i=1; i<=itemC; i++) {
+    //         if(rentListings[i].owner == address(0)){
+
+    //         } else {
+    //             result[index++] = rentListings[i];
+    //         }
+
+    //     }
+    //     return result;
+    // }
+
+    // function close() public onlyAdmin {
+    //     selfdestruct(payable(msg.sender));   
+    // }
 }
