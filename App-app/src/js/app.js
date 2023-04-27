@@ -92,9 +92,9 @@ App = {
       App.handleRegisterUser(jQuery('#name').val());
     });
 
-    $(document).on('click', '#buyItem', function(){
-      App.buyItem(jQuery('#buyitem-id').val());
-    });
+    // $(document).on('click', '#buyItem', function(){
+    //   App.buyItem(jQuery('#buyitem-id').val());
+    // });
 
     // $(document).on('click', '#transfer', function(){
     //   App.handleTransfer(jQuery('#item-name').val(),jQuery('#item-description').val(),jQuery('#item-price').val());
@@ -103,22 +103,22 @@ App = {
 
   },
 
-
-  buyItem: function(itemId){
-    console.log('In Buy Item');
-    App.web3.eth.getAccounts(function(error, accounts){
-      var account = accounts[0];
-      var option = {from:account,value:10};
-      console.log(option);
-      App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
-        if (error){
-          console.log(error);
-        } else {
-          console.log(result);
-        }
-      });
-    })
-  },
+  //
+  // buyItem: function(itemId){
+  //   console.log('In Buy Item');
+  //   App.web3.eth.getAccounts(function(error, accounts){
+  //     var account = accounts[0];
+  //     var option = {from:account,value:10};
+  //     console.log(option);
+  //     App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
+  //       if (error){
+  //         console.log(error);
+  //       } else {
+  //         console.log(result);
+  //       }
+  //     });
+  //   })
+  // },
 
   rentList: function(itemId){
     console.log('In rent list');
@@ -312,17 +312,39 @@ App = {
 
             var buttonContainer = document.createElement("div");
             buttonContainer.classList.add("button-container");
-            var sellButton = document.createElement("button");
-            sellButton.classList.add("sell-button");
-            sellButton.innerHTML = "Sell";
-            buttonContainer.appendChild(sellButton);
+            var buyButton = document.createElement("button");
+            buyButton.classList.add("buy-button");
+            buyButton.innerHTML = "Buy";
+            buyButton.id = "button-id-"+ itemsForSale[i][0];
+            buttonContainer.appendChild(buyButton);
 
-            var rentButton = document.createElement("button");
-            rentButton.classList.add("rent-button");
-            rentButton.innerHTML = "Rent";
-            buttonContainer.appendChild(rentButton);
+            // var itemId = itemsForSale[i][0];
 
-            sellButton.style.marginRight = "10px";
+            // buyButton.click(function(itemId) {
+            //   // App.buyItem(itemsForSale[i][0])
+            //   console.log('In Buy Item');
+            //   App.web3.eth.getAccounts(function(error, accounts){
+            //     var account = accounts[0];
+            //     var option = {from:account,value:10};
+            //     console.log(option);
+            //     App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
+            //       if (error){
+            //         console.log(error);
+            //       } else {
+            //         console.log(result);
+            //       }
+            //     });
+            //   })
+            // });
+
+
+            //
+            // var rentButton = document.createElement("button");
+            // rentButton.classList.add("rent-button");
+            // rentButton.innerHTML = "Rent";
+            // buttonContainer.appendChild(rentButton);
+            //
+            // sellButton.style.marginRight = "10px";
 
 
             imageContainer.appendChild(image);
@@ -398,6 +420,7 @@ App = {
             buttonContainer.appendChild(rentButton);
 
             sellButton.style.marginRight = "10px";
+            captionContainer.style.textAlign = "center";
 
 
             imageContainer.appendChild(image);
