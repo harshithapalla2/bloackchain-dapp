@@ -219,17 +219,11 @@ App = {
 
               var buttonContainer = document.createElement("div");
               buttonContainer.classList.add("button-container");
-              var sellButton = document.createElement("button");
-              sellButton.classList.add("sell-button");
-              sellButton.innerHTML = "Sell";
-              buttonContainer.appendChild(sellButton);
-
               var rentButton = document.createElement("button");
               rentButton.classList.add("rent-button");
               rentButton.innerHTML = "Rent";
+              rentButton.id = "button-id-"+ itemsForRent[i][0];
               buttonContainer.appendChild(rentButton);
-
-              sellButton.style.marginRight = "10px";
 
 
               imageContainer.appendChild(image);
@@ -239,6 +233,27 @@ App = {
               imageContainer.appendChild(document.createElement("br"));
 
               container.appendChild(imageContainer);
+            }
+            var rentButtons = document.querySelectorAll(".rent-button");
+            for (var i = 0; i < rentButtons.length; i++) {
+              console.log(rentButtons);
+              rentButtons[i].addEventListener("click", function() {
+                // handle button click event here
+                console.log('In Rent Item');
+                var itemId = this.id.split("-")[2];
+                App.web3.eth.getAccounts(function(error, accounts){
+                  var account = accounts[0];
+                  var option = {from:account,value:10};
+                  console.log(option);
+                  App.contracts.Games.methods.rentItem(itemId).send(option, function(error,result){
+                    if (error){
+                      console.log(error);
+                    } else {
+                      console.log(result);
+                    }
+                  });
+                });
+              });
             }
           }
         });
