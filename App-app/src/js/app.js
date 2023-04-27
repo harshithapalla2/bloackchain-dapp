@@ -140,54 +140,23 @@ App = {
     
   },
 
+  rentItem: function(itemId){
+    console.log('In Rent Item');
+    App.web3.eth.getAccounts(function(error, accounts){
+      var account = accounts[0];
+      var option = {from:account,value:10};
+      console.log(option);
+      App.contracts.Games.methods.rentItem(itemId).send(option, function(error,result){
+        if (error){
+          console.log(error);
+        } else {
+          console.log(result);
+        }
+      });
+    })
+  },
 
   //Items he can rent
-  // viewRentItems: function() {
-  //   console.log('In view item');
-  //   // var itemInstance;
-  //   var usritems;
-  //   var items;
-  //   App.web3.eth.getAccounts(function(error, accounts) {
-  //     var account = accounts[0];
-      
-  //     console.log(account);
-  //     // console.log(App.contracts.Games.methods.getUser(account));
-  //     var option={from:account};
-  //     console.log(option);
-
-  //     App.contracts.Games.methods.getItemsByUser().call(option,function(error, result) {
-  //       if (error) {
-  //         console.log(error);
-  //       } else {
-  //         usritems = result;
-  //         console.log(usritems);
-  //       }
-  //     });
-  //   });
-
-  //   App.web3.eth.getAccounts(function(error, accounts) {
-  //     var account = accounts[0];
-  //     console.log(account);
-  //     var option={from:account};
-  //     console.log(option);
-
-  //     App.contracts.Games.methods.getAllItems().call(option, function(error,result){
-  //       if (error){
-  //         console.log(error);
-  //       } else {
-  //         items = result;
-  //         console.log(items);
-  //         var itemsForRent = items.filter(item => {
-  //           // check if item is not owned by current user and is available for sale
-  //           return item[6] !== account && item[3] === true && item[6] !== "0x0";
-  //         });    
-  //         console.log(itemsForRent);
-  //       }
-  //     });
-  //   });
-    
-  // },
-    //Items he can rent
   viewRentItems: function() {
       console.log('In view item');
       // var itemInstance;
