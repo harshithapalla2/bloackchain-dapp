@@ -318,34 +318,6 @@ App = {
             buyButton.id = "button-id-"+ itemsForSale[i][0];
             buttonContainer.appendChild(buyButton);
 
-            // var itemId = itemsForSale[i][0];
-
-            // buyButton.click(function(itemId) {
-            //   // App.buyItem(itemsForSale[i][0])
-            //   console.log('In Buy Item');
-            //   App.web3.eth.getAccounts(function(error, accounts){
-            //     var account = accounts[0];
-            //     var option = {from:account,value:10};
-            //     console.log(option);
-            //     App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
-            //       if (error){
-            //         console.log(error);
-            //       } else {
-            //         console.log(result);
-            //       }
-            //     });
-            //   })
-            // });
-
-
-            //
-            // var rentButton = document.createElement("button");
-            // rentButton.classList.add("rent-button");
-            // rentButton.innerHTML = "Rent";
-            // buttonContainer.appendChild(rentButton);
-            //
-            // sellButton.style.marginRight = "10px";
-
 
             imageContainer.appendChild(image);
             imageContainer.appendChild(captionContainer);
@@ -355,6 +327,28 @@ App = {
 
             container.appendChild(imageContainer);
           }
+          var buyButtons = document.querySelectorAll(".buy-button");
+          for (var i = 0; i < buyButtons.length; i++) {
+            console.log(buyButtons);
+            buyButtons[i].addEventListener("click", function() {
+              // handle button click event here
+              console.log('In Buy Item');
+              var itemId = this.id.split("-")[2];
+              App.web3.eth.getAccounts(function(error, accounts){
+                var account = accounts[0];
+                var option = {from:account,value:10};
+                console.log(option);
+                App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
+                  if (error){
+                    console.log(error);
+                  } else {
+                    console.log(result);
+                  }
+                });
+              });
+            });
+          }
+
         }
       });
     });
