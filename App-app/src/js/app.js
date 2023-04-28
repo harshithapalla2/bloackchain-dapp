@@ -98,13 +98,6 @@ App = {
       App.handleRegisterUser(jQuery('#name').val());
     });
 
-    // $(document).on('click', '#buyItem', function(){
-    //   App.buyItem(jQuery('#buyitem-id').val());
-    // });
-
-    // $(document).on('click', '#transfer', function(){
-    //   App.handleTransfer(jQuery('#item-name').val(),jQuery('#item-description').val(),jQuery('#item-price').val());
-    // });
 
 
   },
@@ -161,7 +154,6 @@ App = {
             buyButton.id = "button-id-"+ renteditems[i][0];
             buttonContainer.appendChild(buyButton);
 
-
             imageContainer.appendChild(image);
             imageContainer.appendChild(captionContainer);
             imageContainer.appendChild(buttonContainer);
@@ -181,8 +173,20 @@ App = {
               App.web3.eth.getAccounts(function(error, accounts){
                 var account = accounts[0];
                 var option = {from:account};
+                // var rating = jQuery('#rating').val();
+                var rating = 5;
+                // if (rating>0 || rating <=5){
+                //   toastr["error"]("Error: please give rating between 0 & 5");
+                //   return false;
+                // } 
+                if (rating<3){
+                  rating = 2;
+                }
+                else if (rating>3){
+                  rating = 1;
+                }
                 console.log(option);
-                App.contracts.Games.methods.playGame(itemId).send(option, function(error,result){
+                App.contracts.Games.methods.playGame(itemId,rating).send(option, function(error,result){
                   if (error){
                     console.log(error);
                   } else {
