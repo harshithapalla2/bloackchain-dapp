@@ -82,6 +82,12 @@ App = {
       App.viewRentItems();
     });
 
+    $(document).on('click', '#viewrenteditems', function(){
+      App.viewrenteditems();
+    });
+
+    
+
     $(document).on('click', '#rentList', function(){
       App.rentList(jQuery('#rentitem-id').val());
     });
@@ -101,6 +107,96 @@ App = {
     // });
 
 
+  },
+
+  viewrenteditems: function() {
+    console.log('In view rented item');
+    // var itemInstance;
+    var usritems;
+    var items;
+
+
+    App.web3.eth.getAccounts(function(error, accounts) {
+      var account = accounts[0];
+      console.log(account);
+      var option={from:account};
+      console.log(option);
+
+      App.contracts.Games.methods.getAllItems().call(option, function(error,result){
+        if (error){
+          console.log(error);
+        } else {
+          items = result;
+          console.log(items);
+          var renteditems = items.filter(item => {
+            // check if item is not owned by current user and is available for sale
+            return item[8] === account;
+          });    
+          console.log(renteditems);
+          var container = document.getElementById("grid-container");
+          for (var i = 0; i < renteditems.length; i++) {
+            var imageContainer = document.createElement("div");
+            imageContainer.classList.add("image-container");
+
+            var image = document.createElement("img");
+            imageContainer.style.textAlign = "center";
+            image.src = 'images/1.jpeg';
+            image.alt = 'Image' + i;
+
+            var captionContainer = document.createElement("div");
+            captionContainer.classList.add("caption-container");
+            var captionText = document.createElement("span");
+            captionText.classList.add("caption-text");
+            captionContainer.style.textAlign = "center";
+            captionText.innerHTML = renteditems[i][1];
+            captionContainer.appendChild(captionText);
+            captionContainer.appendChild(document.createElement("br"));
+            captionContainer.appendChild(document.createElement("br"));
+
+            var buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("button-container");
+            var buyButton = document.createElement("button");
+            buyButton.classList.add("buy-button");
+            buyButton.innerHTML = "PlayGame";
+            buyButton.id = "button-id-"+ renteditems[i][0];
+            buttonContainer.appendChild(buyButton);
+
+
+            imageContainer.appendChild(image);
+            imageContainer.appendChild(captionContainer);
+            imageContainer.appendChild(buttonContainer);
+
+            imageContainer.appendChild(document.createElement("br"));
+
+            container.appendChild(imageContainer);
+          }
+          var buyButtons = document.querySelectorAll(".buy-button");
+          for (var i = 0; i < buyButtons.length; i++) {
+            console.log(buyButtons);
+            buyButtons[i].addEventListener("click", function() {
+              // handle button click event here
+              console.log('In Play Game');
+              var itemId = this.id.split("-")[2];
+              console.log(itemId);
+              App.web3.eth.getAccounts(function(error, accounts){
+                var account = accounts[0];
+                var option = {from:account};
+                console.log(option);
+                App.contracts.Games.methods.playGame(itemId).send(option, function(error,result){
+                  if (error){
+                    console.log(error);
+                  } else {
+                    console.log(result);
+                  }
+                });
+              });
+            });
+          }
+
+        }
+      });
+    });
+    
   },
 
   //
@@ -144,7 +240,7 @@ App = {
     console.log('In Rent Item');
     App.web3.eth.getAccounts(function(error, accounts){
       var account = accounts[0];
-      var option = {from:account,value:10};
+      var option = {from:account,value:1000};
       console.log(option);
       App.contracts.Games.methods.rentItem(itemId).send(option, function(error,result){
         if (error){
