@@ -318,7 +318,7 @@ App = {
               var rentButton = document.createElement("button");
               rentButton.classList.add("rent-button");
               rentButton.innerHTML = "Rent";
-              rentButton.id = "button-id-"+ itemsForRent[i][0];
+              rentButton.id = "button-id-"+ itemsForRent[i][0]+'-'+itemsForRent[i][6];
               buttonContainer.appendChild(rentButton);
 
 
@@ -337,9 +337,10 @@ App = {
                 // handle button click event here
                 console.log('In Rent Item');
                 var itemId = this.id.split("-")[2];
+                var price = this.id.split("-")[3];
                 App.web3.eth.getAccounts(function(error, accounts){
                   var account = accounts[0];
-                  var option = {from:account,value:10};
+                  var option = {from:account,value:price};
                   console.log(option);
                   App.contracts.Games.methods.rentItem(itemId).send(option, function(error,result){
                     if (error){
@@ -416,7 +417,7 @@ App = {
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = itemsForSale[i][1];
+            captionText.innerHTML = itemsForSale[i][1]+' Price: '+itemsForSale[i][5];
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
@@ -426,7 +427,7 @@ App = {
             var buyButton = document.createElement("button");
             buyButton.classList.add("buy-button");
             buyButton.innerHTML = "Buy";
-            buyButton.id = "button-id-"+ itemsForSale[i][0];
+            buyButton.id = "button-id-"+ itemsForSale[i][0]+"-"+itemsForSale[i][5];
             buttonContainer.appendChild(buyButton);
 
 
@@ -445,9 +446,10 @@ App = {
               // handle button click event here
               console.log('In Buy Item');
               var itemId = this.id.split("-")[2];
+              var price = this.id.split("-")[3];
               App.web3.eth.getAccounts(function(error, accounts){
                 var account = accounts[0];
-                var option = {from:account,value:10};
+                var option = {from:account,value:price};
                 console.log(option);
                 App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
                   if (error){
@@ -507,35 +509,95 @@ App = {
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = App.items[i].description;
+            captionText.innerHTML = App.items[i].description + 'Price:' + App.items[i].price;
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
 
+
             var buttonContainer = document.createElement("div");
+            buttonContainer.classList.add("button-container");
+            var rentButton = document.createElement("button");
+            rentButton.classList.add("rent-button");
+            rentButton.innerHTML = "List for Rent";
+            rentButton.id = "rentbutton-id-"+ App.items[i][0]+'-'+App.items[i][6];
+            buttonContainer.appendChild(rentButton);
+
+            // var buttonContainer1 = document.createElement("div");
             buttonContainer.classList.add("button-container");
             var sellButton = document.createElement("button");
             sellButton.classList.add("sell-button");
-            sellButton.innerHTML = "Sell";
+            sellButton.innerHTML = "List for Sell";
+            sellButton.id = "sellbutton-id-"+ App.items[i][0]+'-'+App.items[i][5];
             buttonContainer.appendChild(sellButton);
 
-            var rentButton = document.createElement("button");
-            rentButton.classList.add("rent-button");
-            rentButton.innerHTML = "Rent";
-            buttonContainer.appendChild(rentButton);
+            // var rentButton = document.createElement("button");
+            // rentButton.classList.add("rent-button");
+            // rentButton.innerHTML = "List for Rent";
+            // buttonContainer.appendChild(rentButton);
 
-            sellButton.style.marginRight = "10px";
-            captionContainer.style.textAlign = "center";
+            // sellButton.style.marginRight = "10px";
+            // captionContainer.style.textAlign = "center";
 
 
             imageContainer.appendChild(image);
             imageContainer.appendChild(captionContainer);
             imageContainer.appendChild(buttonContainer);
+            // imageContainer.appendChild(buttonContainer1);
 
             imageContainer.appendChild(document.createElement("br"));
 
             container.appendChild(imageContainer);
           }
+
+
+          var sellButtons = document.querySelectorAll(".sell-button");
+          for (var i = 0; i < sellButtons.length; i++) {
+            console.log(sellButtons[i]);
+            sellButtons[i].addEventListener("click", function() {
+              // handle button click event here
+              console.log('In List for sell');
+              var itemId = this.id.split("-")[2];
+              console.log(itemId);
+              App.web3.eth.getAccounts(function(error, accounts){
+                var account = accounts[0];
+                var option = {from:account};
+                console.log(option);
+                App.contracts.Games.methods.listItemForSale(itemId).send(option, function(error,result){
+                  if (error){
+                    console.log(error);
+                  } else {
+                    console.log(result);
+                  }
+                });
+              });
+            });
+          }
+
+          var rentButtons = document.querySelectorAll(".rent-button");
+          for (var i = 0; i < rentButtons.length; i++) {
+            console.log(rentButtons[i]);
+            rentButtons[i].addEventListener("click", function() {
+              // handle button click event here
+              console.log('In List for rent');
+              var itemId = this.id.split("-")[2];
+              console.log(itemId);
+              App.web3.eth.getAccounts(function(error, accounts){
+                var account = accounts[0];
+                var option = {from:account};
+                console.log(option);
+                App.contracts.Games.methods.listItemForRent(itemId).send(option, function(error,result){
+                  if (error){
+                    console.log(error);
+                  } else {
+                    console.log(result);
+                  }
+                });
+              });
+            });
+          }
+
+
 
 
 
