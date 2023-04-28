@@ -199,23 +199,6 @@ App = {
     
   },
 
-  //
-  // buyItem: function(itemId){
-  //   console.log('In Buy Item');
-  //   App.web3.eth.getAccounts(function(error, accounts){
-  //     var account = accounts[0];
-  //     var option = {from:account,value:10};
-  //     console.log(option);
-  //     App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
-  //       if (error){
-  //         console.log(error);
-  //       } else {
-  //         console.log(result);
-  //       }
-  //     });
-  //   })
-  // },
-
   rentList: function(itemId){
     console.log('In rent list');
     App.web3.eth.getAccounts(function(error, accounts) {
@@ -285,6 +268,10 @@ App = {
         App.contracts.Games.methods.getAllItems().call(option, function(error,result){
           if (error){
             console.log(error);
+            if(error.message.indexOf('User not registered')!=-1){
+              toastr["error"]("Error: Only Registered Users can view items Please register");
+              return false;
+            }
           } else {
             items = result;
             console.log(items);
@@ -394,6 +381,10 @@ App = {
       App.contracts.Games.methods.getAllItems().call(option, function(error,result){
         if (error){
           console.log(error);
+          if(error.message.indexOf('User not registered')!=-1){
+            toastr["error"]("Error: Only Registered Users can view items Please register");
+            return false;
+          }
         } else {
           items = result;
           console.log(items);
@@ -454,8 +445,15 @@ App = {
                 App.contracts.Games.methods.buyItem(itemId).send(option, function(error,result){
                   if (error){
                     console.log(error);
+                    if(error.message.indexOf('Insufficient funds')!=-1){
+                      toastr["error"]("Error: Insufficient funds");
+                      return false;
+                    } //else if(){
+
+                    // }
                   } else {
                     console.log(result);
+                    toastr.success("Item successfully bought");
                   }
                 });
               });
@@ -485,6 +483,10 @@ App = {
       App.contracts.Games.methods.getItemsByUser().call(option,function(error, result) {
         if (error) {
           console.log(error);
+          if(error.message.indexOf('User not registered')!=-1){
+            toastr["error"]("Error: Only Registered Users Please register");
+            return false;
+          }
         } else {
           console.log(result[0]);
           App.items=result;
@@ -669,9 +671,14 @@ App = {
       .send(option, function(error,result){
         if (error){
           console.log(error);
+          if(error.message.indexOf('User already registered')!=-1){
+            toastr["error"]("Error: User already registered");
+            return false;
+          }
         } else {
           console.log('Here');
           console.log(result);
+          toastr.success("User Successfully Registered");
         }
       });
 
@@ -692,17 +699,21 @@ App = {
       var option={from:account};
       console.log(option);
       console.log(typeof parseInt(price));
+
       App.contracts.Games.methods.addItem(name,price,description)
       .send(option, function(error,result){
         if (error){
-          console.log(error);
+          if(error.message.indexOf('User not registered')!=-1){
+            toastr["error"]("Error: Only Registered Users can add items");
+            return false;
+          }
+          console.log("in error");
         } else {
           console.log('Here');
+          toastr.success("Item Successfully added");
           console.log(result);
         }
       });
-
-
     })
   }
 }
