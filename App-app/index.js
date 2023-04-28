@@ -1,4 +1,6 @@
 var express = require('express');
+var fs = require('fs');
+
 var app = express();
 app.use(express.static('src'));
 app.use(express.static('../App-contract/build/contracts'));

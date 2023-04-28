@@ -9,6 +9,8 @@ contract GameItems is ERC721 {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
+    event TransferItem(address indexed from, address indexed to, uint256 indexed itemId);
+
     address admin;
 
     struct User {
@@ -73,16 +75,6 @@ contract GameItems is ERC721 {
         return result;
     }
 
-    // function getRentedItemsByUser() public view onlyRegistered returns (Item[] memory) {
-    //     uint256[] memory itemslist = users[msg.sender].rentedItemIds;
-    //     uint256 index=0;
-    //     Item[] memory result = new Item[](itemslist.length+1);
-    //     for (uint i=0; i<itemslist.length; i++) {
-    //         result[index++] = items[itemslist[i]];
-    //     }
-    //     return result;
-    // }
-
     function getAllItems() public onlyRegistered returns (Item[] memory){
         uint256 index=0;
         uint itemC = _tokenIds.current();
@@ -112,9 +104,13 @@ contract GameItems is ERC721 {
     function listItemForSale(uint256 _itemId) public onlyOwner(_itemId) returns (bool){
         // require(ownerOf(_itemId) == msg.sender, "Not the owner of the item.");
         require(!isItemForSale(_itemId), "Item already listed for sale.");
-        uint256 _price = items[_itemId].price;
+
+
+        // uint256 _price = items[_itemId].price;
         // listings[_itemId] = SaleListing(_itemId, msg.sender, _price);
         items[_itemId].isAvailableForSale = true;
+        // _approve(msg.sender, _itemId);
+
         return true;
     }
 
@@ -130,6 +126,8 @@ contract GameItems is ERC721 {
         require(users[msg.sender].walletAddress != address(0),"User not registered.");
 
         _transfer(seller, msg.sender, _itemId);
+        // emit TransferItem(seller, msg.sender, _itemId); 
+
         users[msg.sender].ownedItemIds.push(_itemId);
 
         for (uint i = 0; i < users[seller].ownedItemIds.length; i++) {
@@ -170,15 +168,12 @@ contract GameItems is ERC721 {
         address owner = items[_itemId].owner;
         require(owner != msg.sender, "Cannot rent own item.");
         require(users[msg.sender].walletAddress != address(0),"User not registered.");
-        // users[msg.sender].rentedItemIds.push(_itemId)
-        // items[_itemId].renter = msg.sender;
         users[msg.sender].rentedItemIds.push(_itemId);
         users[owner].balance += totalRentPrice;
         users[msg.sender].balance -= totalRentPrice;
         payable(owner).transfer(totalRentPrice);
         items[_itemId].isAvailableForRent = false;
         items[_itemId].renteraddr = msg.sender;
-        // delete rentListings[_itemId];
     }
 
     function isUserRentingItem(address user, uint256 _itemId) internal view returns (bool) {
@@ -191,22 +186,22 @@ contract GameItems is ERC721 {
     }
 
 
-    function playGame(uint256 _itemId) public returns (uint256){
+    function playGame(uint256 _itemId, uint256 rating) public returns (uint256){
         require(isUserRentingItem(msg.sender,_itemId),"Not the renter of the item.");
-        // require(items[_itemId].renter != msg.sender, "Not the renter of the item.");
-        // require(ownerOf(_itemId) == msg.sender, "Not the owner of the item.");
         require(!isItemForRent(_itemId), "Item already listed for rent.");
-        // require(rating>=0 && rating<=5, "Give valid rating between 0 and 5");
-
-        // uint256 _gameRentPrice = items[_itemId].price * 2 / 10;
+        
         items[_itemId].isAvailableForRent = false;
         items[_itemId].renteraddr = address(0);
 
-        // rentListings[_itemId] = RentListing(_itemId, msg.sender, _gameRentPrice);
-
+        if (rating ==1){
+            items[_itemId].price = items[_itemId].price + (1 * items[_itemId].price / 10);
+            items[_itemId].rentPrice = items[_itemId].price * 2 / 10;
+        } else if (rating ==2) {
+            items[_itemId].price = items[_itemId].price - (1 * items[_itemId].price / 10);
+            items[_itemId].rentPrice = items[_itemId].price * 2 / 10;
+        }
         returnRentedItem(_itemId);
         return 1;
-        // cancelRentListing(_itemId);
     }
 
     function returnRentedItem(uint256 _itemId) public {
