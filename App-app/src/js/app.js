@@ -95,7 +95,7 @@ App = {
     $(document).on('click', '#viewitems', App.viewOwnedItems);
 
     $(document).on('click', '#registeruser', function(){
-      App.handleRegisterUser(jQuery('#name').val());
+      App.handleRegisterUser(jQuery('#name').val(),jQuery('#value').val());
     });
 
 
@@ -705,13 +705,13 @@ App = {
     
   },
 
-  handleRegisterUser: function(username) {
+  handleRegisterUser: function(username, balance) {
     var itemInstance;
     console.log('In Register user function');
     App.web3.eth.getAccounts(function(error, accounts) {
       var account = accounts[0];
       console.log(account);
-      var option={from:account,value: 10};
+      var option={from:account,value: balance};
       console.log(option);
       // console.log(typeof parseInt(price));
       App.contracts.Games.methods.registerUser(username)
