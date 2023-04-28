@@ -143,35 +143,8 @@ App = {
             captionContainer.style.textAlign = "center";
             captionText.innerHTML = renteditems[i][1];
             captionContainer.appendChild(captionText);
+            // captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
-            captionContainer.appendChild(document.createElement("br"));
-
-            var ratingContainer = document.createElement("div");
-            ratingContainer.classList.add("rating-container");
-            var ratingText = document.createElement("span");
-            ratingText.classList.add("rating-text");
-            ratingContainer.style.textAlign = "center";
-            ratingText.innerHTML = "Rate this item:";
-            ratingContainer.appendChild(ratingText);
-
-// Add radio buttons for rating options
-            var ratings = ["1", "2", "3", "4", "5"];
-            for (var j = 0; j < ratings.length; j++) {
-              var ratingOption = document.createElement("input");
-              ratingOption.type = "radio";
-              ratingOption.name = "rating";
-              ratingOption.value = ratings[j];
-              ratingContainer.appendChild(ratingOption);
-
-              var ratingLabel = document.createElement("label");
-              ratingLabel.innerHTML = ratings[j];
-              ratingContainer.appendChild(ratingLabel);
-            }
-
-// Append rating container to document
-//             document.body.appendChild(captionContainer);
-
-
 
 
             var buttonContainer = document.createElement("div");
@@ -182,10 +155,48 @@ App = {
             buyButton.id = "button-id-"+ renteditems[i][0];
             buttonContainer.appendChild(buyButton);
 
+            // var priceContainer = document.createElement("div");
+            // priceContainer.classList.add("rating-container");
+            // // var priceLabel = document.createElement("label");
+            // // priceLabel.innerHTML = "Price: ";
+            // var priceInput = document.createElement("input");
+            // priceInput.style.textAlign = "center";
+            // priceInput.type = "number";
+            // priceInput.name = "price";
+            // priceInput.min = "0";
+            // priceInput.step = "0.01";
+            // priceInput.value = "0.00";
+            // // priceContainer.appendChild(priceLabel);
+            // priceContainer.appendChild(priceInput);
+
+            var ratingContainer = document.createElement("div");
+            ratingContainer.classList.add("rating-container");
+
+            var ratingLabel = document.createElement("label");
+            ratingLabel.innerHTML = "Rating: ";
+
+            var ratingInput = document.createElement("input");
+            ratingInput.style.textAlign = "center";
+            ratingInput.type = "number";
+            ratingInput.name = "rating";
+            ratingInput.min = "1";
+            ratingInput.max = "5";
+            ratingInput.value = "1";
+            ratingInput.id = "rating-input-"+renteditems[i][0];
+
+            ratingContainer.appendChild(ratingLabel);
+            ratingContainer.appendChild(ratingInput);
+
+
+
+
             imageContainer.appendChild(image);
             imageContainer.appendChild(captionContainer);
-            document.body.appendChild(ratingContainer);
+            // imageContainer.appendChild(xc);
+            imageContainer.appendChild(ratingContainer);
             imageContainer.appendChild(buttonContainer);
+            
+
 
 
             imageContainer.appendChild(document.createElement("br"));
@@ -203,8 +214,9 @@ App = {
               App.web3.eth.getAccounts(function(error, accounts){
                 var account = accounts[0];
                 var option = {from:account};
-                // var rating = jQuery('#rating').val();
-                var rating = 5;
+                var rating = jQuery('#rating-input-'+itemId).val();
+                console.log(rating);
+                // var rating = 5;
                 // if (rating>0 || rating <=5){
                 //   toastr["error"]("Error: please give rating between 0 & 5");
                 //   return false;
@@ -215,6 +227,7 @@ App = {
                 else if (rating>3){
                   rating = 1;
                 }
+                console.log(rating);
                 console.log(option);
                 App.contracts.Games.methods.playGame(itemId,rating).send(option, function(error,result){
                   if (error){
