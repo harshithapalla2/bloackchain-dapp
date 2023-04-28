@@ -146,6 +146,34 @@ App = {
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
 
+            var ratingContainer = document.createElement("div");
+            ratingContainer.classList.add("rating-container");
+            var ratingText = document.createElement("span");
+            ratingText.classList.add("rating-text");
+            ratingContainer.style.textAlign = "center";
+            ratingText.innerHTML = "Rate this item:";
+            ratingContainer.appendChild(ratingText);
+
+// Add radio buttons for rating options
+            var ratings = ["1", "2", "3", "4", "5"];
+            for (var j = 0; j < ratings.length; j++) {
+              var ratingOption = document.createElement("input");
+              ratingOption.type = "radio";
+              ratingOption.name = "rating";
+              ratingOption.value = ratings[j];
+              ratingContainer.appendChild(ratingOption);
+
+              var ratingLabel = document.createElement("label");
+              ratingLabel.innerHTML = ratings[j];
+              ratingContainer.appendChild(ratingLabel);
+            }
+
+// Append rating container to document
+//             document.body.appendChild(captionContainer);
+
+
+
+
             var buttonContainer = document.createElement("div");
             buttonContainer.classList.add("button-container");
             var buyButton = document.createElement("button");
@@ -156,7 +184,9 @@ App = {
 
             imageContainer.appendChild(image);
             imageContainer.appendChild(captionContainer);
+            document.body.appendChild(ratingContainer);
             imageContainer.appendChild(buttonContainer);
+
 
             imageContainer.appendChild(document.createElement("br"));
 
