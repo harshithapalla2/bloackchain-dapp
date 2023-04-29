@@ -1,0 +1,75 @@
+[
+  {
+    "name": "1",
+    "description": "1",
+    "price": "1",
+    "owner": "0xecFa146F17B977dd928Ba5648226521846DD79A5",
+    "imgLoc": "uploads/0xecFa146F17B977dd928Ba5648226521846DD79A5/1.png"
+  },
+  {
+    "name": "AK 47",
+    "description": "AK 47 highest damage",
+    "price": "10",
+    "imgLoc": "uploads/AK_47.png"
+  },
+  {
+    "name": "AK 47",
+    "description": "Highest Damage",
+    "price": "5",
+    "imgLoc": "images/AK_47.png"
+  },
+  {
+    "name": "AK 47",
+    "description": "Highest Damage",
+    "price": "5",
+    "imgLoc": "images/AK_47.png"
+  },
+  {
+    "name": "AK 47",
+    "description": "Highest Damage",
+    "price": "5",
+    "imgLoc": "src/images/AK_47.png"
+  },
+  {
+    "name": "AK 47",
+    "description": "AKM",
+    "price": "50",
+    "imgLoc": "src/images/AK_47.png"
+  },
+  {
+    "name": "AK 47 5436",
+    "description": "AKM",
+    "price": "50",
+    "imgLoc": "src/images/AK_47_5436.jpeg"
+  },
+  {
+    "name": "Sniper 1",
+    "description": "djgcnvmsb,n`",
+    "price": "10",
+    "imgLoc": "src/images/Sniper_1.jpeg"
+  },
+  {
+    "name": "abc 1",
+    "description": "jskfb",
+    "price": "10",
+    "imgLoc": "src/images/abc_1.jpeg"
+  },
+  {
+    "name": "AKM 47",
+    "description": "AKM high damage",
+    "price": "50",
+    "imgLoc": "src/images/AKM_47.jpeg"
+  },
+  {
+    "name": "2",
+    "description": "fghnmb",
+    "price": "3",
+    "imgLoc": "src/images/2.jpeg"
+  },
+  {
+    "name": "Sniper",
+    "description": "aasss",
+    "price": "10",
+    "imgLoc": "src/images/Sniper.jpeg"
+  }
+]
