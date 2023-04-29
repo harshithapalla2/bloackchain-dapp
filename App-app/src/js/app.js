@@ -455,7 +455,7 @@ App = {
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = itemsForSale[i][1]+' Price: '+itemsForSale[i][5];
+            captionText.innerHTML = itemsForSale[i][1]+'<br> Price: '+itemsForSale[i][5];
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
@@ -558,7 +558,7 @@ App = {
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = App.items[i].description + 'Price:' + App.items[i].price;
+            captionText.innerHTML = App.items[i].description + '<br>Price:' + App.items[i].price;
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
@@ -571,6 +571,9 @@ App = {
             rentButton.innerHTML = "List for Rent";
             rentButton.id = "rentbutton-id-"+ App.items[i][0]+'-'+App.items[i][6];
             buttonContainer.appendChild(rentButton);
+
+            rentButton.style.marginRight = "10px";
+
 
             // var buttonContainer1 = document.createElement("div");
             buttonContainer.classList.add("button-container");
