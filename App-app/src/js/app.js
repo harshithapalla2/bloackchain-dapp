@@ -139,7 +139,7 @@ App = {
             console.log(image.src);
             image.style.maxWidth = "100%";
             image.style.maxHeight = "100%";
-            
+
             var captionContainer = document.createElement("div");
             captionContainer.classList.add("caption-container");
             var captionText = document.createElement("span");
@@ -449,7 +449,7 @@ App = {
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = itemsForSale[i][1]+' Price: '+itemsForSale[i][5];
+            captionText.innerHTML = itemsForSale[i][1]+'<br> Price: '+itemsForSale[i][5];
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
@@ -564,7 +564,7 @@ App = {
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = App.items[i].description + 'Price:' + App.items[i].price;
+            captionText.innerHTML = App.items[i].description + '<br>Price:' + App.items[i].price;
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
@@ -759,9 +759,6 @@ App = {
           $.getJSON("../items.json", function (data) {
             console.log(data);
           });
-
-          const newItem = { name: 'New Item', description: 'This is a new item', price: 9.99 };
-          console.log(JSON.stringify(newItem))
 
           $.getJSON("../items.json", function (data) {
             console.log(data);
