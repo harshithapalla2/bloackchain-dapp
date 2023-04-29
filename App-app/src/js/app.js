@@ -577,6 +577,9 @@ App = {
             rentButton.id = "rentbutton-id-"+ App.items[i][0]+'-'+App.items[i][6];
             buttonContainer.appendChild(rentButton);
 
+            rentButton.style.marginRight = "10px";
+
+
             // var buttonContainer1 = document.createElement("div");
             buttonContainer.classList.add("button-container");
             var sellButton = document.createElement("button");
