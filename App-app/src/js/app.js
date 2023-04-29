@@ -1,3 +1,4 @@
+// const fs = require('fs');
 App = {
   //top level variables
   web3: null,
@@ -130,18 +131,21 @@ App = {
           for (var i = 0; i < renteditems.length; i++) {
             var imageContainer = document.createElement("div");
             imageContainer.classList.add("image-container");
-
             var image = document.createElement("img");
             imageContainer.style.textAlign = "center";
-            image.src = 'images/1.jpeg';
+            image.src = '../images/'+renteditems[i][1].replace(/\s+/g, '_')+'.jpeg';
+            // image.src = `images/${renteditems[i][1].replace(/\s+/g, '_')}.jpeg`;
             image.alt = 'Image' + i;
-
+            console.log(image.src);
+            image.style.maxWidth = "100%";
+            image.style.maxHeight = "100%";
+            
             var captionContainer = document.createElement("div");
             captionContainer.classList.add("caption-container");
             var captionText = document.createElement("span");
             captionText.classList.add("caption-text");
             captionContainer.style.textAlign = "center";
-            captionText.innerHTML = renteditems[i][1];
+            captionText.innerHTML = renteditems[i][1] + ' Price :'+renteditems[i][6];
             captionContainer.appendChild(captionText);
             // captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
@@ -154,20 +158,6 @@ App = {
             buyButton.innerHTML = "PlayGame";
             buyButton.id = "button-id-"+ renteditems[i][0];
             buttonContainer.appendChild(buyButton);
-
-            // var priceContainer = document.createElement("div");
-            // priceContainer.classList.add("rating-container");
-            // // var priceLabel = document.createElement("label");
-            // // priceLabel.innerHTML = "Price: ";
-            // var priceInput = document.createElement("input");
-            // priceInput.style.textAlign = "center";
-            // priceInput.type = "number";
-            // priceInput.name = "price";
-            // priceInput.min = "0";
-            // priceInput.step = "0.01";
-            // priceInput.value = "0.00";
-            // // priceContainer.appendChild(priceLabel);
-            // priceContainer.appendChild(priceInput);
 
             var ratingContainer = document.createElement("div");
             ratingContainer.classList.add("rating-container");
@@ -203,6 +193,8 @@ App = {
 
             container.appendChild(imageContainer);
           }
+
+
           var buyButtons = document.querySelectorAll(".buy-button");
           for (var i = 0; i < buyButtons.length; i++) {
             console.log(buyButtons);
@@ -334,7 +326,8 @@ App = {
 
               var image = document.createElement("img");
               imageContainer.style.textAlign = "center";
-              image.src = 'images/1.jpeg';
+              image.src = `../images/${itemsForRent[i].name.replace(/\s+/g, '_')}.jpeg`;
+              // image.src = 'images/1.jpeg';
               image.alt = 'Image' + i;
 
               var captionContainer = document.createElement("div");
@@ -447,7 +440,8 @@ App = {
 
             var image = document.createElement("img");
             imageContainer.style.textAlign = "center";
-            image.src = 'images/1.jpeg';
+            // image.src = 'images/1.jpeg';
+            image.src = `../images/${itemsForSale[i].name.replace(/\s+/g, '_')}.jpeg`;
             image.alt = 'Image' + i;
 
             var captionContainer = document.createElement("div");
@@ -547,11 +541,23 @@ App = {
           for(var i=0; i<App.items.length;i++){
             var imageContainer = document.createElement("div");
             imageContainer.classList.add("image-container");
+            // imageContainer.style.display = "flex";
+            // imageContainer.style.justifyContent = "center";
+            // imageContainer.style.alignItems = "center";
 
             var image = document.createElement("img");
             imageContainer.style.textAlign = "center";
-            image.src = 'images/1.jpeg';
+            // console.log(App.items[i]);
+            image.src = `../images/${App.items[i].name.replace(/\s+/g, '_')}.jpeg`;
+            console.log(image.src);
+
+            // image.src = 'images/1.jpeg';
+            // console.log(image.src);
+
+
             image.alt = 'Image'+i;
+            image.style.maxWidth = "100%";
+            image.style.maxHeight = "100%";
 
             var captionContainer = document.createElement("div");
             captionContainer.classList.add("caption-container");
@@ -562,7 +568,6 @@ App = {
             captionContainer.appendChild(captionText);
             captionContainer.appendChild(document.createElement("br"));
             captionContainer.appendChild(document.createElement("br"));
-
 
             var buttonContainer = document.createElement("div");
             buttonContainer.classList.add("button-container");
@@ -579,15 +584,6 @@ App = {
             sellButton.innerHTML = "List for Sell";
             sellButton.id = "sellbutton-id-"+ App.items[i][0]+'-'+App.items[i][5];
             buttonContainer.appendChild(sellButton);
-
-            // var rentButton = document.createElement("button");
-            // rentButton.classList.add("rent-button");
-            // rentButton.innerHTML = "List for Rent";
-            // buttonContainer.appendChild(rentButton);
-
-            // sellButton.style.marginRight = "10px";
-            // captionContainer.style.textAlign = "center";
-
 
             imageContainer.appendChild(image);
             imageContainer.appendChild(captionContainer);
@@ -748,7 +744,7 @@ App = {
       console.log(typeof parseInt(price));
 
       App.contracts.Games.methods.addItem(name,price,description)
-      .send(option, function(error,result){
+      .send(option, async function(error,result){
         if (error){
           if(error.message.indexOf('User not registered')!=-1){
             toastr["error"]("Error: Only Registered Users can add items");
@@ -759,6 +755,33 @@ App = {
           console.log('Here');
           toastr.success("Item Successfully added");
           console.log(result);
+          
+          $.getJSON("../items.json", function (data) {
+            console.log(data);
+          });
+
+          const newItem = { name: 'New Item', description: 'This is a new item', price: 9.99 };
+          console.log(JSON.stringify(newItem))
+
+          $.getJSON("../items.json", function (data) {
+            console.log(data);
+          });
+
+          const file = document.querySelector('input[type="file"]').files[0];
+          const formData = new FormData();
+          formData.append('myFile', file);
+          formData.append('account', account);
+          formData.append('name', name);
+          formData.append('description', description);
+          formData.append('price', price);
+
+
+          const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+          });
+          const data = await response.text();
+          console.log(data);
         }
       });
     })
